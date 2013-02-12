@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jukeboxchanger : Turns a Jukebox into an automatic record changer" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jukeboxchanger</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/JohnGuru/JukeboxChanger">View on GitHub</a>
+
+          <h1 id="project_title">Jukeboxchanger</h1>
+          <h2 id="project_tagline">Turns a Jukebox into an automatic record changer</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/JohnGuru/JukeboxChanger/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/JohnGuru/JukeboxChanger/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>JukeboxChanger extends the functionality of the Minecraft Jukebox by adding the ability to play a sequence of records without player intervention. In effect it changes the Jukebox ''Player'' into a record ''Changer.''</p>
+
+<h2>Setup</h2>
+
+<p>To set up the Jukebox Changer, you must place a single chest next to the jukebox or immediately underneath it. Note that double chests are not explicitly supported at this time. If a doublechest exists next to the jukebox, the changer will only look at the side of the doublechest that is adjacent.</p>
+
+<p>Adjacent means next to one of the four Jukebox faces or underneath it. Diagonal placement of the chest containing the record selections is not supported.</p>
+
+<p>Place one or more records in the adjacent chest. An empty chest does not define a JukeboxChanger, and any Jukebox placed next to an empty chest will function as an ordinary jukebox until you place records in the chest and start the Jukebox.</p>
+
+<h2>Operation</h2>
+
+<p>To begin play, right-click the Jukebox. It doesn't matter what you're holding. In particular, you need not (and should not) be holding a record when right-clicking on the jukebox. Hopefully, if you're holding a record when you right-click, the plugin will ignore the record you're holding, as only records in the feeder chest will be played.</p>
+
+<p>To stop play, left-click the Jukebox. This differs from standard Jukebox behavior where a right-click is used to both start and stop play. Also note that there is no "eject" function, and the JukeboxChanger will not discharge any record it uses from the chest.</p>
+
+<p>To change the JukeboxChanger's play list, first stop the Jukebox. Then you may freely add to, remove from, and alter the sequence of records in the feeder chest. Start the JukeboxChanger after making your changes to the record selection. Note that the JukeboxChanger will ''ignore'' any changes to the contents of the feeder chest while it is playing records. The JukeboxChanger loads the records in the chest into its memory when starting play, and ignores the chest until the jukebox is started again.</p>
+
+<h2>Normal Jukeboxes</h2>
+
+<p>A normal jukebox is considered to be any jukebox without an adjacent chest, or where any such chest is empty of records. A normal jukebox will operate like any conventional Minecraft Jukebox. You must right-click while holding a record to start play. It will stop play when the record ends, and then remain silent. You must right-click again to eject the record.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jukeboxchanger maintained by <a href="https://github.com/JohnGuru">JohnGuru</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
