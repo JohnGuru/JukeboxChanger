@@ -1,3 +1,5 @@
 name: JukeboxChanger
 main: com.github.JohnGuru.JukeboxChanger.JukeboxChanger
-version: 0.1
+version: 2.0
+author: JohnGuru
+description: Jukebox with continuous play and record changing

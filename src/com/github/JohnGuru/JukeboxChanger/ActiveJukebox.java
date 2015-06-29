@@ -1,6 +1,8 @@
 package com.github.JohnGuru.JukeboxChanger;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,21 +12,26 @@ import org.bukkit.inventory.ItemStack;
 
 
 public class ActiveJukebox {
-	Jukebox	theBox;
+	Jukebox	theBox;				// The block we're controlling
+	Chunk	chunk;				// The chunk containing the jukebox
 	ArrayList<Material>	records;
 	int		playTime;			// monitor cycles left to play
 	int		selectedRecord;
 	
 	public ActiveJukebox(Block box) {
 		theBox = (Jukebox)box.getState();
+		chunk = box.getChunk();
+
 		//lets initialize the record list
 		records = new ArrayList<Material>();
 		//now try to find a chest that fills the record list
 		if (!selectChest(-1,0,0)
 				&& !selectChest(1,0,0)
 				&& !selectChest(0,0,-1)
-				&& !selectChest(0,0,1))
-			selectChest(0,-1,0);
+				&& !selectChest(0,0,1)
+				&& !selectChest(0,-1,0)
+			)
+			selectChest(0,1,0);	// look above the jukebox as a final try
 		playTime = 0;
 		selectedRecord = -1;
 	}
@@ -51,12 +58,30 @@ public class ActiveJukebox {
 		return !records.isEmpty();
 	}
 	
+	public void reset() {
+		playTime = 0;
+	}
+	
+	public boolean isLoaded() {
+		// Determine whether the jukebox is in a loaded chunk
+		return chunk.isLoaded();
+	}
+	
 	public boolean isEmpty() {
 		return records.isEmpty();
 	}
 	
 	public Block getBlock() {
 		return theBox.getBlock();
+	}
+	
+	public Location getLocation() {
+		return theBox.getLocation();
+	}
+	
+	public boolean isActive() {
+		// tests status without decrementing play count
+		return (playTime > 0);
 	}
 	
 	public boolean isPlaying() {
@@ -68,6 +93,12 @@ public class ActiveJukebox {
 	
 	public void playNext() {
 		// start the next record playing
+		/*
+		if (playTime > 0) {
+			String m = String.format("already playing rec %d", selectedRecord);
+			JukeboxChanger.ourLogger.info(m);
+		}
+		*/
 		playTime = 12;		// four cycles per minute
 		selectedRecord = (selectedRecord + 1) % records.size();
 		Material rec = records.get(selectedRecord);
