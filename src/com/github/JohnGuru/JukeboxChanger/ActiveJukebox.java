@@ -14,13 +14,15 @@ import org.bukkit.inventory.ItemStack;
 public class ActiveJukebox {
 	Jukebox	theBox;				// The block we're controlling
 	Chunk	chunk;				// The chunk containing the jukebox
-	ArrayList<Material>	records;
 	int		playTime;			// monitor cycles left to play
 	int		selectedRecord;
+	boolean	alwaysplay;
+	ArrayList<Material>	records;
 	
 	public ActiveJukebox(Block box) {
 		theBox = (Jukebox)box.getState();
 		chunk = box.getChunk();
+		alwaysplay = isLocked();
 
 		//lets initialize the record list
 		records = new ArrayList<Material>();
@@ -41,6 +43,12 @@ public class ActiveJukebox {
 				&& theBox.getY() == b.getY()
 				&& theBox.getZ() == b.getZ() );
 		
+	}
+	
+	private boolean isLocked() {
+		Location under = theBox.getLocation().add(0, -1, 0);
+		Block base = under.getBlock();
+		return (base != null && base.getType() == JukeboxChanger.lockBlock);
 	}
 	
 	private boolean selectChest(int dx, int dy, int dz) {

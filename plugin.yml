@@ -1,5 +1,11 @@
 name: JukeboxChanger
 main: com.github.JohnGuru.JukeboxChanger.JukeboxChanger
-version: 2.0
+version: 2.1
 author: JohnGuru
 description: Jukebox with continuous play and record changing
+softdepend: [Multiverse-Core, Multiverse-NetherPortals]
+
+permissions:
+  jukebox.admin:
+    description: Player allowed to start play of an autoplay box
+    default: op

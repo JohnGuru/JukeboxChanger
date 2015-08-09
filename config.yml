@@ -1,2 +1,5 @@
-autoplay:
-  locations:
+# LockBlock: Material_Name
+#       The material to be placed UNDER the Jukebox to make it an autoplay device
+#       Playing an atoplay device requires jukebox.admin permission
+LockBlock: DIAMOND_BLOCK
+autoplay: []

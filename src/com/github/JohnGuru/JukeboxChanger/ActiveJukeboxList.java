@@ -1,9 +1,15 @@
 package com.github.JohnGuru.JukeboxChanger;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 /*
  * ActiveJukeboxList:
@@ -30,23 +36,34 @@ public class ActiveJukeboxList {
 	}
 	
 	public ActiveJukebox get(Block box) {
-		Iterator<ActiveJukebox> item = list.iterator();
-		while (item.hasNext()) {
-			ActiveJukebox juke = item.next();
-			if (juke.isEqual(box))
+		for (ActiveJukebox juke : list) {
+			if (juke.getBlock().equals(box))
 				return juke;
 		}
 		return null;
 	}
 	
-	public void remove(Block box) {
+	public List<ActiveJukebox> getLocked() {
+		List<ActiveJukebox> boxes = new ArrayList<ActiveJukebox>();
+		for (ActiveJukebox box : list)
+			if (box.alwaysplay)
+				boxes.add(box);
+		return boxes;
+	}
+	
+	public void remove(Block box, Player requestor) {
 		// invoke the LinkedList search and remove
 		Iterator<ActiveJukebox> item = list.iterator();
 		while (item.hasNext()) {
 			ActiveJukebox juke = item.next();
-			if (juke.isEqual(box)) {
+			if (juke.getBlock().equals(box)) {
+				if (juke.alwaysplay && !requestor.hasPermission(JukeboxChanger.admin)) {
+					requestor.sendMessage(ChatColor.RED + "This jukebox is admin protected.");
+					return;
+				}
 				juke.stopPlay();
 				item.remove();
+				return;
 			}
 		}
 	}
@@ -58,6 +75,7 @@ public class ActiveJukeboxList {
 	 * by appending an ActiveJukebox item to the active list and kicking off the monitor if
 	 * it's not running.
 	 */
+	
 	public boolean startPlay(Block box) {
 
 		// find the jukebox in the active list
@@ -78,8 +96,6 @@ public class ActiveJukeboxList {
 				return false;
 			list.add(juke);
 		}
-		else if (juke.isActive())
-			juke.stopPlay();
 		juke.playNext();
 		return true;
 	}
@@ -89,7 +105,7 @@ public class ActiveJukeboxList {
 	 *  restartBoxes:
 	 *  Called from the scheduled synchronous task.
 	 *  	If the jukebox has been destroyed, remove it from the active list
-	 *  	If the jukebox chunk is not loaded, pause it if promoted
+	 *  	If the jukebox chunk is not loaded, ignore it if alwaysplay,
 	 *  	otherwise remove it.
 	 *  	Normally, check if the jukebox is still playing a record
 	 *  	If not, start the next record.
@@ -106,7 +122,7 @@ public class ActiveJukeboxList {
 					item.remove();
 				else if (!juke.isPlaying())
 					juke.playNext();
-			} else
+			} else if (!juke.alwaysplay)
 				item.remove();
 		}
 	}
